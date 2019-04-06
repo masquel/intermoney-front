@@ -38,11 +38,17 @@ const getOrderBookFromArray = (array, type, options) => {
         }
 
         objectByPrice[itemPrice] = array[i];
-        keyList.push(itemPrice);
+        if(itemPrice > 0){
+            keyList.push(itemPrice);    
+        }
     }
 
     keyList = keyList.sort((a, b) => {
-      return type === "bid" ? b - a : a - b;
+        if(type === "bid"){
+            return b - a;
+        }else{
+            return a - b; 
+        }
     });
 
     let filledPriceLevel = [];
@@ -86,13 +92,14 @@ const getOrderBookFromArray = (array, type, options) => {
     return list;
 };
 
-const OrderBookCell = ({ type, price, amount, total, fillPercent, onClick }) => {
+const OrderBookCell = ({ type, price, amount, total, fillPercent, onClick, ref }) => {
     const typeClassName = typeClassNames[type];
     return (
         <Row
             className={typeClassName}
             gutter={0}
             justify="start"
+            ref={ref}
         >
             <div
                 className="orderbook-row__fill"
@@ -127,7 +134,6 @@ class OrderBook extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            maxAmount: 100,
             localOrderBook: {
                 ask: [],
                 bid: []
@@ -136,6 +142,7 @@ class OrderBook extends Component {
             stepValue: 2,
             depth: 30
         };
+        this.firstAsk = React.createRef();
     }
 
     buildOrderBook = () => {
@@ -147,7 +154,8 @@ class OrderBook extends Component {
     }
     renderPriceList = type => {
         const { orderBook } = this.props;
-        const { maxAmount, show, stepValue, depth } = this.state;
+        const { show, stepValue, depth } = this.state;
+        let maxAmount = 0;
         let price_list = getOrderBookFromArray(orderBook[type], type, {stepValue, depth});
         if (show === "all") {
             if (type === "bid") {
@@ -156,6 +164,12 @@ class OrderBook extends Component {
                 price_list = price_list.slice(-8);
             }
         }
+
+        price_list.forEach(item => {
+            if(item.amount > maxAmount){
+                maxAmount = item.amount;
+            }
+        });
 
         return (
             <div className="order-book__price-list">
@@ -173,8 +187,11 @@ class OrderBook extends Component {
                                 this.props.onSelectPrice(price);    
                             }
                         }
+                        
+                        let useRef = (price_list.length - 1 === index && type === "ask");
                         return (
                             <OrderBookCell
+                                ref={useRef ? this.firstAsk : undefined}
                                 key={index}
                                 type={type}
                                 price={price}
@@ -193,6 +210,10 @@ class OrderBook extends Component {
         e.preventDefault();
         const { value } = e.target;
         this.setState({ show: value });
+        if(value === "asks"){
+            console.log(this.firstAsk);
+            //this.firstAsk.current.scrollIntoView();
+        }
     };
 
     onChangeStepValue = value => {

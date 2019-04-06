@@ -2,6 +2,7 @@
 	padding: 5px 15px;
 	background-color: #fff;
 	border-bottom: 4px solid #30e8ff;
+	transition: border .7s ease;
 	position: fixed;
 	top: 0;
 	width: 100%;
@@ -14,8 +15,13 @@
 	width: 100px;
 	height: 100px;
 	right: -5px;
-	bottom: -7px;
+	bottom: -5px;
 	transform: rotate(19deg);
+	transition: bottom .5s ease;
+}
+
+.header:hover .hackathon-leafs{
+	bottom: -11px;
 }
 
 .hackathon-leaf {

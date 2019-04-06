@@ -1,16 +1,15 @@
 .order-book {
     background-color: #fff;
-    border: 1px solid #ebebeb;
+    /*border: 1px solid #ebebeb;*/
     font-size: 12px;
 }
 
 .order-book__header {
     padding: 5px;
-    background-color: #fafafa;
+    background-color: #eee;
 }
 
 .order-book__inner {
-    padding: 10px 0;
     max-height: 775px;
     overflow: hidden;
 }
