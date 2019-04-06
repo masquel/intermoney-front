@@ -16,3 +16,75 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.ant-input {
+  border-radius: 0;
+  font-size: 12px;
+}
+
+.ant-input-group-addon {
+  border-radius: 0;
+}
+
+.ant-input-affix-wrapper .ant-input-prefix {
+  left: 5px;
+}
+
+.ant-input-affix-wrapper .ant-input:not(:first-child) {
+  padding-left: 20px;
+}
+
+.ant-form-item {
+  margin-bottom: 5px;
+}
+
+.ant-form label {
+  font-size: 12px;
+}
+
+.ant-form-item-label {
+  text-align: left;
+}
+
+.ant-select-selection {
+  border-radius: 0;
+}
+
+.ant-select-sm {
+  font-size: 12px;
+}
+
+.ant-btn {
+  border-radius: 0;
+}
+
+.ant-btn > .anticon + span {
+  margin-left: 2px;
+}
+
+.ant-btn-sm {
+  font-size: 12px;
+}
+
+.ant-layout {
+  background-color: #fff;
+}
+
+.ant-table-small {
+  border: none;
+  border-radius: 0;
+}
+
+.ant-table-small > .ant-table-content > .ant-table-scroll > .ant-table-body > table > .ant-table-tbody > tr > td {
+  border-bottom: 0;
+  padding: 2px 4px;
+}

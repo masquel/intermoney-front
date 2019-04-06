@@ -76,7 +76,8 @@ const WalletBalance = ({ wallet }) => {
 
 const mapStateToProps = state => {
     return {
-        lastPrice: 0
+        lastPrice: 0,
+        instrument: {}
     }
 };
 

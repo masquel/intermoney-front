@@ -1,6 +1,26 @@
 import React from 'react';
 
+import classNames from '../../utils/classNames';
+
 import './Header.css';
+
+const Leafs = ({children}) => {
+	return (
+		<div className="hackathon-leafs">
+			{children}
+		</div>
+	)
+}
+
+const Leaf = ({index}) => {
+	return (
+		<div 
+			className={classNames("hackathon-leaf", {
+				["hackathon-leaf--" + index]: index
+			})} 
+		/>
+	);
+};
 
 class Header extends React.Component {
 	render(){
@@ -13,6 +33,14 @@ class Header extends React.Component {
 						alt=""
 					/>
 				</a>
+				<Leafs>
+					<Leaf index={1} />
+					<Leaf index={2} />
+					<Leaf index={3} />
+					<Leaf index={4} />
+					<Leaf index={5} />
+					<Leaf index={6} />
+				</Leafs>
 			</header>
 		)
 	}

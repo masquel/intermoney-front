@@ -1,6 +1,62 @@
 .header {
 	padding: 5px 15px;
 	background-color: #fff;
+	border-bottom: 4px solid #30e8ff;
+	position: relative;
+	overflow: hidden;
+}
+
+.hackathon-leafs {
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	right: -5px;
+	bottom: -7px;
+	transform: rotate(19deg);
+}
+
+.hackathon-leaf {
+	width: 20px;
+	height: 40px;
+	border-top-left-radius: 25px 22px;
+	border-bottom-right-radius: 25px 22px;
+	background-color: #30e8ff;
+}
+
+.header .hackathon-leaf {
+	position: absolute;
+}
+
+.header .hackathon-leaf--1 {
+	right: 5px;
+	bottom: 5px;
+	transform: scale(0.8);
+}
+
+.header .hackathon-leaf--2 {
+	right: 35px;
+	bottom: -5px;
+}
+
+.header .hackathon-leaf--3 {
+	right: 15px;
+	bottom: 35px;
+}
+
+.header .hackathon-leaf--4 {
+	right: 60px;
+	bottom: 5px;
+}
+
+.header .hackathon-leaf--5 {
+	right: 40px;
+	bottom: 45px;
+}
+
+.header .hackathon-leaf--6 {
+	right: 70px;
+	top: 20px;
+	transform: scale(0.8);
 }
 
 .header__hackathon-link {
