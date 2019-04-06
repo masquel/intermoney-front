@@ -15,9 +15,7 @@ class Dashboard extends React.Component {
 			<div className="dashboard">
 				<Row>
 					<Col md={10} sm={24} xs={24}>
-						<Card>
-							<Orderbook />	
-						</Card>
+						<Orderbook />
 					</Col>
 					<Col md={14} sm={24} xs={24}>
 						<Card>

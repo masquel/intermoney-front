@@ -26,6 +26,14 @@ code {
   float: right;
 }
 
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .ant-input {
   border-radius: 0;
   font-size: 12px;
