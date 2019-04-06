@@ -1,0 +1,60 @@
+.order-form {
+	padding: 15px;
+	min-height: 280px;
+}
+
+.order-form__wallet-balance {
+	float: right;
+	font-weight: normal;
+}
+
+.order-form__title {
+	font-size: 14px;
+}
+
+.order-form__balance-buttons {
+	display: flex;
+	margin-top: 5px; 
+}
+
+.order-form__balance-button {
+	margin: 0 3px;
+	flex: 1 1 auto;
+}
+
+.order-form__balance-button:first-child {
+	margin-left: 0;
+}
+
+.order-form__balance-button:last-child {
+	margin-right: 0;
+}
+
+.order-form__button {
+	width: 100%;
+	margin-top: 20px;
+}
+
+.order-form__button--sell {
+	color: #fff;
+	border-color: #bc6060;
+	background-color: #bc6060;
+}
+
+.order-form__button--sell:hover {
+	color: #bc6060;
+	border-color: #bc6060;
+	background-color: transparent;
+}
+
+.order-form__button--buy {
+	color: #fff;
+	border-color: #76bc5d;
+	background-color: #76bc5d;
+}
+
+.order-form__button--buy:hover {
+	color: #76bc5d;
+	border-color: #76bc5d;
+	background-color: transparent;
+}

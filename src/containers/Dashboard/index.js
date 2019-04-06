@@ -1,8 +1,11 @@
 import React from 'react';
 
 import { Row, Col } from '../../components/Grid';
-import Orderbook from '../../components/Orderbook';
 import Card from '../../components/Card';
+
+import Orderbook from '../../components/Orderbook';
+import OrderAction from '../../components/OrderAction';
+
 
 import './Dashboard.css';
 
@@ -21,7 +24,7 @@ class Dashboard extends React.Component {
 							Graph	
 						</Card>
 						<Card>
-							Order Form
+							<OrderAction />
 						</Card>
 					</Col>
 				</Row>

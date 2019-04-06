@@ -38,5 +38,29 @@ export const getOrderBook = () => {
 				]
 			}
 		})
-	})
+	});
+};
+
+export const createOrder = () => {
+	return new Promise((resolve) => {
+		resolve();
+	});
+};
+
+export const getWallets = () => {
+	return new Promise((resolve) => {
+		resolve();
+	});
+};
+
+export const getActiveOrders = () => {
+	return new Promise((resolve) => {
+		resolve();
+	});
+};
+
+export const getHistoryOrdersList = () => {
+	return new Promise((resolve) => {
+		resolve();
+	});
 }
