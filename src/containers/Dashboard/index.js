@@ -24,15 +24,17 @@ class Dashboard extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<Col md={10} sm={24} xs={24}>
+					<Col md={6} sm={24} xs={24}>
 						<Orderbook />
 					</Col>
-					<Col md={14} sm={24} xs={24}>
-						<Card>
-							Graph	
-						</Card>
+					<Col md={12} sm={24} xs={24}>
 						<Card>
 							<OrderAction />
+						</Card>
+					</Col>
+					<Col md={6} sm={24} xs={24}>
+						<Card fullHeight>
+							
 						</Card>
 					</Col>
 				</Row>

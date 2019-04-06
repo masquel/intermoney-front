@@ -64,6 +64,7 @@
 
 .header__hackathon-link {
   display: inline-block;
+  vertical-align: middle;
 }
 
 .header__hackathon-logo {
@@ -71,4 +72,13 @@
     width: 120px;
     height: auto;
     display: block;
+}
+
+.header__logo {
+	margin-left: 20px;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 16px;
+	line-height: 1;
+	font-weight: bold;
 }

@@ -33,6 +33,9 @@ class Header extends React.Component {
 						alt=""
 					/>
 				</a>
+				<div className="header__logo">
+					Intermoney Team <br />DEX
+				</div>
 				<Leafs>
 					<Leaf index={1} />
 					<Leaf index={2} />
