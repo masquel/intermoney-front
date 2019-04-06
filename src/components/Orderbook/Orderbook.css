@@ -1,0 +1,118 @@
+.order-book {
+    background-color: #fff;
+    border: 1px solid #ebebeb;
+    font-size: 12px;
+}
+
+.order-book__header {
+    padding: 5px;
+    background-color: #fafafa;
+}
+
+.order-book__inner {
+    padding: 10px 0;
+    max-height: 775px;
+    overflow: hidden;
+}
+
+.order-book__inner-header {
+    padding: 5px 10px;
+}
+
+.order-book__last-price {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+.order-book__price-list {
+    max-height: 720px;
+    overflow: auto;
+}
+
+.orderbook-row {
+    position: relative;
+}
+
+.orderbook-row__fill {
+    position: absolute;
+    height: 100%;
+    right: 0;
+    opacity: 0.3;
+}
+
+
+.orderbook-bid-row .orderbook-row__fill {
+    background-color: #56b351;
+}
+
+.orderbook-ask-row .orderbook-row__fill {    
+    background-color: #b34844;
+}
+
+.orderbook-ask-row .order-book-cell,
+.orderbook-bid-row .order-book-cell{
+    /*color: #ffffff;*/
+    /*padding: 5px 0px 5px 15px;*/
+}
+
+.orderbook-bid-row .order-book-cell--price {
+    color: #76bc5d;
+}
+
+.orderbook-ask-row .order-book-cell--price {
+    color: #bc6060;
+}
+
+.order-book-cell:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.order-book-cell--price {
+    padding: 5px 0px 5px 15px;    
+}
+
+.order-book-cell--amount {
+    text-align: center;
+    padding: 5px;
+}
+.order-book-cell--total {
+    text-align: right;
+    padding: 5px 15px 5px 0px;
+}
+
+.order-book-cell.volume {
+    width: 100%;
+    padding: 1px;
+    position: absolute;
+}
+
+.order-book-cell.volume .all-amount-progress {
+    width: 100%;
+    position: absolute;
+}
+
+.order-book-cell.volume .current-amount-progress {
+    width: 0%;
+    position: absolute;
+    height: 25px;
+}
+
+.order-book-cell.volume .current-amount-progress.bid {
+    background-color: #b34844;
+}
+
+.order-book-cell.volume .current-amount-progress.ask {
+    background-color: #56b351;
+}
+
+.order-book-cell.volume .amount-progress-value {
+    position: relative;
+    width: 100%;
+    text-align: right;
+    top: 3px;
+    right: 15px;
+}
