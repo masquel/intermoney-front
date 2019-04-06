@@ -3,6 +3,7 @@ import React from 'react';
 import { Row, Col } from '../../components/Grid';
 import Card from '../../components/Card';
 
+import SymbolInfo from '../../components/SymbolInfo';
 import Orderbook from '../../components/Orderbook';
 import OrderAction from '../../components/OrderAction';
 import ActiveOrdersList from '../../components/ActiveOrderList';
@@ -15,6 +16,13 @@ class Dashboard extends React.Component {
 	render(){
 		return (
 			<div className="dashboard">
+				<Row>
+					<Col md={24} sm={24} xs={24}>
+						<Card>
+							<SymbolInfo />
+						</Card>
+					</Col>
+				</Row>
 				<Row>
 					<Col md={10} sm={24} xs={24}>
 						<Orderbook />
@@ -29,7 +37,7 @@ class Dashboard extends React.Component {
 					</Col>
 				</Row>
 				<Row>
-					<Col md={25} sm={24} xs={24}>
+					<Col md={24} sm={24} xs={24}>
 						<Card>
 							<ActiveOrdersList />	
 						</Card>

@@ -76,3 +76,9 @@ export const cancelAllOrders = () => {
 		resolve();
 	});
 }
+
+export const getTickers = () => {
+	return new Promise((resolve) => {
+		resolve();
+	});
+};
