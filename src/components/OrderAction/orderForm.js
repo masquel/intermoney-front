@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, Input, Select, message } from 'antd';
 
-import { createOrder, getWallets, getActiveOrders, getHistoryOrdersList } from '../../api';
+import { createOrder, getWallets, getActiveOrders, getHistoryOrders } from '../../api';
 
 import { Row, Col } from '../Grid';
 
@@ -126,7 +126,7 @@ class OrderForm extends Component {
                     amount: 0.0
                 });
                 getActiveOrders(5, 0);
-                getHistoryOrdersList(10, 0);
+                getHistoryOrders(10, 0);
                 getWallets();
                 message.success("Order added successfully.");
             })

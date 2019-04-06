@@ -5,6 +5,8 @@ import Card from '../../components/Card';
 
 import Orderbook from '../../components/Orderbook';
 import OrderAction from '../../components/OrderAction';
+import ActiveOrdersList from '../../components/ActiveOrderList';
+import HistoryOrdersList from '../../components/HistoryOrderList';
 
 
 import './Dashboard.css';
@@ -29,7 +31,10 @@ class Dashboard extends React.Component {
 				<Row>
 					<Col md={25} sm={24} xs={24}>
 						<Card>
-							Orders	
+							<ActiveOrdersList />	
+						</Card>
+						<Card>
+							<HistoryOrdersList />
 						</Card>
 					</Col>
 				</Row>

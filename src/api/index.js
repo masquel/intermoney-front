@@ -59,7 +59,19 @@ export const getActiveOrders = () => {
 	});
 };
 
-export const getHistoryOrdersList = () => {
+export const getHistoryOrders = () => {
+	return new Promise((resolve) => {
+		resolve();
+	});
+};
+
+export const cancelOrder = () => {
+	return new Promise((resolve) => {
+		resolve();
+	})
+};
+
+export const cancelAllOrders = () => {
 	return new Promise((resolve) => {
 		resolve();
 	});

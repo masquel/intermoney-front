@@ -2,8 +2,11 @@
 	padding: 5px 15px;
 	background-color: #fff;
 	border-bottom: 4px solid #30e8ff;
-	position: relative;
+	position: fixed;
+	top: 0;
+	width: 100%;
 	overflow: hidden;
+	z-index: 100;
 }
 
 .hackathon-leafs {
