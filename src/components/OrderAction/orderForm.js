@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Form, Input, Select, message } from 'antd';
+import Web3 from 'web3';
 
 import { createOrder, getWallets, getActiveOrders, getHistoryOrders } from '../../api';
 
@@ -162,20 +163,23 @@ class OrderForm extends Component {
     handleSubscribeOrder = (e) => {
         e.preventDefault();
         this.setState({ loading: true });
-        const { web3 } = window;
-        if(!web3){
+        if(!window.web3){
             alert('No web3!');
             this.setState({ loading: false });
         }else{
-            web3.eth.sign(web3.eth.accounts[0], 'test', (err, result) => {
-                console.log(result);
-                if(err){
-                    console.error(err);
-                    message.error(err.message);
-                    this.setState({loading: false});
-                }else{
-                    this.setState({loading: false});
-                }
+            const web3 = new Web3(window.web3.currentProvider);
+            const hash = web3.utils.sha3("test");
+            console.log(hash);
+            web3.eth.getAccounts().then(accounts => {
+                return web3.eth.personal.sign(message, accounts[0], hash)
+            }).then(signature => {
+                console.log(signature);
+                message.success(signature);
+                this.setState({ loading: false });
+            }).catch(error => {
+                console.error(error);
+                message.error(error.message);
+                this.setState({ loading: false });    
             })
         }
     }
