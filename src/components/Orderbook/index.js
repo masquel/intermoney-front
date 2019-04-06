@@ -151,9 +151,9 @@ class OrderBook extends Component {
         let price_list = getOrderBookFromArray(orderBook[type], type, {stepValue, depth});
         if (show === "all") {
             if (type === "bid") {
-                price_list = price_list.slice(0, 13);
+                price_list = price_list.slice(0, 8);
             } else {
-                price_list = price_list.slice(-13);
+                price_list = price_list.slice(-8);
             }
         }
 

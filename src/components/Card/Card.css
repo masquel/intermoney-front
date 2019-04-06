@@ -2,3 +2,11 @@
 	padding: 20px;
 	background-color: #fff;
 }
+
+.card--full-height {
+	height: 100%;
+}
+
+.card + .card {
+	margin-top: 10px;
+}

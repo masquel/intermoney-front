@@ -1,0 +1,15 @@
+.header {
+	padding: 5px 15px;
+	background-color: #fff;
+}
+
+.header__hackathon-link {
+  display: inline-block;
+}
+
+.header__hackathon-logo {
+    max-width: 120px;
+    width: 120px;
+    height: auto;
+    display: block;
+}

@@ -28,7 +28,7 @@
 }
 
 .order-book__price-list {
-    max-height: 720px;
+    max-height: 448px;
     overflow: auto;
 }
 

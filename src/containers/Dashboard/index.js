@@ -20,6 +20,9 @@ class Dashboard extends React.Component {
 						<Card>
 							Graph	
 						</Card>
+						<Card>
+							Order Form
+						</Card>
 					</Col>
 				</Row>
 				<Row>
