@@ -1,4 +1,12 @@
-//import { API_URL } from '../config';
+import axios from 'axios';
+
+import { API_URL } from '../config';
+
+console.log('API_URL', API_URL);
+
+const api = axios.create({
+	baseURL: API_URL + '/api'
+})
 
 
 export const getOrderBook = () => {
@@ -83,5 +91,14 @@ export const cancelAllOrders = () => {
 export const getTickers = () => {
 	return new Promise((resolve) => {
 		resolve();
+	});
+};
+
+export const getMarkets = (address) => {
+	return api.get("/markets/", {
+		headers: {
+			'Authorization': 'Address ' + address,
+			'Content-Types': 'application/json'
+		}
 	});
 };

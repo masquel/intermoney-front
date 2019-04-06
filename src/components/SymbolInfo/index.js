@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { getMarkets } from '../../api';
 import { fetchTickers } from '../../reducers/Tickers';
 
 import { Row, Col } from '../Grid';
@@ -22,7 +23,14 @@ const mapDispatchToProps = {
 
 class SymbolInfo extends React.Component {
 	componentDidMount(){
-		this.props.fetchTickers();
+		const { web3 } = window;
+		if(web3){
+			const { accounts } = web3.eth;
+			getMarkets(accounts[0]).then((response) => {
+				console.log(response);
+			})	
+		}
+		//this.props.fetchTickers();
 	}
 	render(){
 		const { symbol, instrumentObject, tickers } = this.props;
