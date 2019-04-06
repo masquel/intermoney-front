@@ -24,6 +24,11 @@ const Leaf = ({index}) => {
 
 class Header extends React.Component {
 	render(){
+		const { web3 } = window;
+		let account = "Enable metamask";
+		if(web3){
+			account = web3.eth.accounts[0];
+		}
 		return (
 			<header className="header">
 				<a href="http://hackathon.dsxt.uk" className="header__hackathon-link" target="_blank">
@@ -35,6 +40,9 @@ class Header extends React.Component {
 				</a>
 				<div className="header__logo">
 					Intermoney Team <br />DEX
+				</div>
+				<div>
+					{account}
 				</div>
 				<Leafs>
 					<Leaf index={1} />

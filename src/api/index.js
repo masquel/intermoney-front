@@ -1,3 +1,6 @@
+//import { API_URL } from '../config';
+
+
 export const getOrderBook = () => {
 	return new Promise((resolve, reject) => {
 		resolve({

@@ -5,14 +5,17 @@
   "dependencies": {
     "antd": "^3.16.1",
     "axios": "^0.18.0",
+    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
     "react-scripts": "2.1.8",
+    "react-web3": "git+https://github.com/coopermaruyama/react-web3.git",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "web3": "^1.0.0-beta.52"
+    "web3": "^1.0.0-beta.52",
+    "web3-react": "^3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

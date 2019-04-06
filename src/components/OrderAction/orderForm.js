@@ -113,39 +113,72 @@ class OrderForm extends Component {
         const { amount, price } = this.state;
         const currentPrice = (price || lastPrice).toString();
         this.setState({ loading: true });
-        createOrder({
-            instrument: instrument.symbol,
-            amount: amount,
-            execution_type: type.toLowerCase(),
-            price: type.toLowerCase() === "market" ? undefined : currentPrice,
-            side
-        })
-            .then(response => {
-                this.setState({
-                    loading: false,
-                    amount: 0.0
-                });
-                getActiveOrders(5, 0);
-                getHistoryOrders(10, 0);
-                getWallets();
-                message.success("Order added successfully.");
-            })
-            .catch(error => {
-                if (error.response && error.response.data) {
-                    console.log(error.response.data);
-                    message.error(error.response.data.error.message);
-                } else {
-                    message.error(
-                        `Something wrong. Order didn't create. ${error}`
-                    );
+        const { web3 } = window;
+        if(!web3){
+            alert('No web3!');
+        }else{
+            web3.eth.sign(web3.eth.accounts[0], 'test', (error, result) => {
+                if(error) {
+                    console.log(error)
+                    message.error(error.message);
+                }else{
+                    console.log(result);
+                    createOrder({
+                        instrument: instrument.symbol,
+                        amount: amount,
+                        execution_type: type.toLowerCase(),
+                        price: type.toLowerCase() === "market" ? undefined : currentPrice,
+                        side
+                    })
+                        .then(response => {
+                            this.setState({
+                                loading: false,
+                                amount: 0.0
+                            });
+                            getActiveOrders(5, 0);
+                            getHistoryOrders(10, 0);
+                            getWallets();
+                            message.success("Order added successfully.");
+                        })
+                        .catch(error => {
+                            if (error.response && error.response.data) {
+                                console.log(error.response.data);
+                                message.error(error.response.data.error.message);
+                            } else {
+                                message.error(
+                                    `Something wrong. Order didn't create. ${error}`
+                                );
+                            }
+                            console.error(error);
+                            this.setState({
+                                loading: false
+                            });
+                        });  
                 }
-                console.error(error);
-                this.setState({
-                    loading: false
-                });
             });
+           
+        }
     };
-
+    handleSubscribeOrder = (e) => {
+        e.preventDefault();
+        this.setState({ loading: true });
+        const { web3 } = window;
+        if(!web3){
+            alert('No web3!');
+            this.setState({ loading: false });
+        }else{
+            web3.eth.sign(web3.eth.accounts[0], 'test', (err, result) => {
+                console.log(result);
+                if(err){
+                    console.error(err);
+                    message.error(err.message);
+                    this.setState({loading: false});
+                }else{
+                    this.setState({loading: false});
+                }
+            })
+        }
+    }
     onBalancePercentClick = e => {
         e.preventDefault();
         const { value } = e.target;
@@ -201,7 +234,7 @@ class OrderForm extends Component {
         const orderAction = orderActions[side];
         const orderButtonProps = orderButtonsProps[side];
         return (
-            <Form onSubmit={this.handleFormSubmit} className="order-form">
+            <Form onSubmit={this.handleSubscribeOrder} className="order-form">
                 <h3 className="order-form__title">
                     {orderAction} {buyCurrency}{" "}
                     <WalletBalance wallet={wallet} />
