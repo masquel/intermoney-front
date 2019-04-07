@@ -166,7 +166,7 @@ class OrderBook extends Component {
                         let { amount, price } = listItem;
                         let fillPercent = 0;
                         if (amount !== "-") {
-                            fillPercent = parseInt(parseFloat(amount) / maxAmount * 100);
+                            fillPercent = parseInt(parseFloat(amount) / maxAmount * 100) || 0;
                             amount = parseFloat(amount);
                         }
                         const onClick = () => {
