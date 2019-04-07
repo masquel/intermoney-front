@@ -25,7 +25,7 @@ export const fetchTrades = (account) => dispatch => {
 
 const initialState = {
 	loading: false,
-	trades: {},
+	data: [],
 	error: null,
 }
 
@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				loading: false,
-				trades: action.payload
+				data: action.payload.slice(100)
 			}
 		}
 		case FETCH_FAILURE:

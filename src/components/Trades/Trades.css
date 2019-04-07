@@ -1,0 +1,23 @@
+.trade-log__header {
+	margin-bottom: 5px;
+}
+
+.trade-log__header::after {
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.trade-log__items {
+	//overflow-y: scroll;
+	min-height: 243px;
+	background-color: #fff;
+}
+
+.trade-log__item--sell {
+	color: #bc6060;
+}
+
+.trade-log__item--buy {
+	color: #76bc5d;
+}

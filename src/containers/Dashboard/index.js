@@ -19,6 +19,7 @@ import Orderbook from '../../components/Orderbook';
 import OrderAction from '../../components/OrderAction';
 import ActiveOrdersList from '../../components/ActiveOrderList';
 import HistoryOrdersList from '../../components/HistoryOrderList';
+import TradeLog from '../../components/Trades';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -33,7 +34,8 @@ const mapStateToProps = (state) => {
 	return {
 		tickers: state.Tickers.tickers,
 		orderBook: state.Orderbook.data,
-		...state.Orders
+		...state.Orders,
+		trades: state.Trades
 	}
 };
 
@@ -42,7 +44,8 @@ const mapDispatchToProps = {
 	fetchOrderBook,
 	fetchHistoryOrderList,
 	fetchActiveOrderList,
-	processApiError
+	processApiError,
+	fetchTrades
 };
 
 class Dashboard extends React.Component {
@@ -63,6 +66,7 @@ class Dashboard extends React.Component {
 			}
 		});
 		this.fetchOrders();	
+		this.props.fetchTrades();
 	}
 	fetchDataTick = () => {
 		let interval = 15 * 1000;
@@ -87,7 +91,7 @@ class Dashboard extends React.Component {
 		this.fetchDataTick();
 	}
 	render(){
-		const { match, tickers, orderBook, activeOrders, orders, processApiError } = this.props;
+		const { match, tickers, orderBook, activeOrders, orders, processApiError, trades } = this.props;
 		const { pair } = match.params;
 		const ticker = tickers[pair] || {};
 		const lastPrice = ticker.lastPrice || 0;
@@ -121,8 +125,11 @@ class Dashboard extends React.Component {
 							</Row>
 						</Col>
 						<Col md={6} sm={24} xs={24}>
-							<Card fullHeight flat>
+							<Card flat>
 								<SymbolList tickers={tickers} ticker={ticker} />
+							</Card>
+							<Card flat>
+								<TradeLog {...trades} />
 							</Card>
 						</Col>
 					</Row>
