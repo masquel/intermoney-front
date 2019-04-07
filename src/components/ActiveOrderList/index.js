@@ -85,7 +85,7 @@ class ActiveOrderList extends Component {
         }, {
             title: "Total",
             render: (text, record) => (<div>{formatPrice(record.price) * formatPrice(record.filled) || '-'}</div>)
-        }, {
+        }, /*{
             className: 'text-center',
             title: (
                 <Popconfirm
@@ -119,7 +119,7 @@ class ActiveOrderList extends Component {
                     </div>
                 )
             }
-        }];
+        }*/];
         const title = (<span>Open orders</span>);
         return(
     		<OrderList 

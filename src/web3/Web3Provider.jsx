@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AccountUnavailable from './AccountUnavailable';
 import Web3Unavailable from './Web3Unavailable';
@@ -142,8 +143,6 @@ class Web3Provider extends React.Component {
     if (didChange && typeof onChangeAccount === 'function') {
       onChangeAccount(next);
     }
-
-    console.log("store");
     const didLogin = !curr && next;
     const didLogout = curr && !next;
     if(didLogout){
@@ -229,11 +228,7 @@ class Web3Provider extends React.Component {
 
   render() {
     const { web3 } = window;
-    const {
-      passive,
-      web3UnavailableScreen: Web3UnavailableComponent,
-      accountUnavailableScreen: AccountUnavailableComponent
-    } = this.props;
+    const { passive } = this.props;
 
     if (passive) {
       return this.props.children;
@@ -255,7 +250,7 @@ Web3Provider.propTypes = propTypes;
 Web3Provider.defaultProps = defaultProps;
 Web3Provider.childContextTypes = childContextTypes;
 
-export default Web3Provider;
+export default connect()(Web3Provider);
 
 /* =============================================================================
 =    Deps

@@ -10,7 +10,7 @@ import "./Orderbook.css";
 
 const Option = Select.Option;
 
-
+const formatPrice = number => number / 1000000000000000000;
 
 const typeClassNames = {
     "ask": "orderbook-row orderbook-ask-row",
@@ -178,8 +178,8 @@ class OrderBook extends Component {
                             <OrderBookCell
                                 key={index}
                                 type={type}
-                                price={price}
-                                amount={amount}
+                                price={formatPrice(price)}
+                                amount={formatPrice(amount)}
                                 fillPercent={fillPercent}
                                 onClick={onClick}
                             />

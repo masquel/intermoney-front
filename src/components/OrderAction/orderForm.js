@@ -137,7 +137,7 @@ class OrderForm extends Component {
                     console.log('hashParams', hashParams);
                     const soliditySha3 = web3.utils.soliditySha3(...hashParams);
                     console.log('soliditySha3', soliditySha3);
-                    return {signature: web3.eth.sign(soliditySha3, accounts[0]), nonce}
+                    return web3.eth.sign(soliditySha3, accounts[0]).then(signature => ({signature, nonce}));
                 });
             }).then(({signature, nonce}) => {
                 console.log('signature', signature);
