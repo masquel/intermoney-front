@@ -16,7 +16,7 @@ const RadioGroup = Radio.Group;
 
 class SymbolListButtons extends Component {
     render() {
-        const buttons = ["EUR", "USD"];
+        const buttons = ["USD", "EUR"];
         const { active, onClick } = this.props;
         return (
             <div className="symbol-lists__buttons">
@@ -115,7 +115,7 @@ class SymbolList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeList: "BTC",
+            activeList: "USD",
             favorites: [],
             filterValue: "",
             activeField: "change"
@@ -135,7 +135,7 @@ class SymbolList extends Component {
     };
     renderSymbolList = () => {
         const { activeList, filterValue, activeField } = this.state;
-        const { symbol, tickers } = this.props;
+        const { ticker, tickers } = this.props;
         const symbolList = Object.keys(tickers);
         if (!symbolList) {
             return null;
@@ -162,8 +162,8 @@ class SymbolList extends Component {
             width: 90,
             title: "Pair",
             render: (text, record) => {
-                const item = record.symbol;
-                const active = item === symbol;
+                const item = record.name;
+                const active = item === ticker.name;
                 
                 return active ? (
                     <div>
@@ -171,8 +171,8 @@ class SymbolList extends Component {
                     </div>
                 ) : (
                     <div>
-                        <Link to={`/?pair=${item}`}>
-                            {record.base_currency} / {record.quote_currency}
+                        <Link to={`/trade/${item}`}>
+                            {record.base_currency_display} / {record.quote_currency_display}
                         </Link>
                     </div>
                 )
