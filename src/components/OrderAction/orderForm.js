@@ -129,27 +129,20 @@ class OrderForm extends Component {
             web3.eth.getAccounts().then(accounts => {
 
                 const direction = side === "sell" ? false : true;
-                return getNextNonce(accounts[0])
-                    .then(response => {
-                        const { nonce } = response.data;
-                        // const hashParams = [
-                        //     {t: 'uint256', v: 0}, // nonce
-                        //     {t: 'uint256', v: 5000}, // amount
-                        //     {t: 'uint256', v: 2}, // price
-                        //     {t: 'bool', v: 1} // direction (sell - false, buy - true)
-                        // ];
-                        //const hashParams = getHashParams(0, 5000, 20000, true);
-                        const hashParams = getHashParams(nonce, amount, price, direction);
+                return getNextNonce(accounts[0]).then(response => {
+                    const { nonce } = response.data;
+                    //const hashParams = getHashParams(1, 5000, 20000, true);
+                    const hashParams = getHashParams(nonce, amount, price, direction);
 
-                        console.log('hashParams', hashParams);
-                        const soliditySha3 = web3.utils.soliditySha3(...hashParams);
-                        
-                        return web3.eth.sign(soliditySha3, accounts[0])  
-                    })
+                    console.log('hashParams', hashParams);
+                    const soliditySha3 = web3.utils.soliditySha3(...hashParams);
+                    console.log('soliditySha3', soliditySha3);
+                    return web3.eth.sign(soliditySha3, accounts[0])  
+                });
             }).then(signature => {
-                console.log(signature);
+                console.log('signature', signature);
                 //message.success(signature);
-                
+                //return ;
                 createOrder({
                     market: ticker.id,
                     size: amount,
@@ -278,21 +271,6 @@ class OrderForm extends Component {
                         addonAfter={<span>{buyCurrency}</span>}
                         style={{ width: "100%" }}
                     />
-                    <div className="order-form__balance-buttons">
-                        {balancePercentButtons.map((balancePercent, index) => {
-                            return (
-                                <Button
-                                    key={index}
-                                    className="order-form__balance-button"
-                                    value={balancePercent}
-                                    size="small"
-                                    onClick={this.onBalancePercentClick}
-                                >
-                                    {balancePercent}%
-                                </Button>
-                            );
-                        })}
-                    </div>
                 </FormItem>
                 <FormItem
                     label="Total"

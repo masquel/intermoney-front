@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import {message, Icon, Button, Popconfirm} from "antd";
 import moment from "moment/moment";
 
-import { processApiError } from "../../reducers/helpers";
-
 import { cancelOrder, cancelAllOrders } from "../../api";
 import { fetchWallets } from "../../reducers/Wallets/";
 import { fetchActiveOrderList } from "../../reducers/Orders";
@@ -21,14 +19,14 @@ class ActiveOrderList extends Component {
         filter: null
     }
     onCancelOrder = (orderId) => {
-        const { cancelOrder, processApiError, fetchWallets } = this.props;
+        const { processApiError, fetchWallets } = this.props;
         return () => {
             const { web3 } = window;
-            const { account } = web3.eth;
+            const { accounts } = web3.eth;
             if(web3){
-                return cancelOrder(orderId, account[0])
+                return cancelOrder(orderId, accounts[0])
                     .then((response) => {
-                        fetchWallets(account[0]);
+                        fetchWallets(accounts[0]);
                         message.success(`Order ${response.data.id} canceled`);
                     })
                     .catch(error => {
@@ -65,8 +63,8 @@ class ActiveOrderList extends Component {
             title: "Pair",
             render: (text, record) => {
                 const ticker = tickers[record.market_display];
-                const base_currency = ticker ? ticker.base_currency : '';
-                const quote_currency = ticker ? ticker.quote_currency : '';
+                const base_currency = ticker ? ticker.base_currency_display : '';
+                const quote_currency = ticker ? ticker.quote_currency_display : '';
                 return <div>{base_currency}/{quote_currency}</div>;
             }
         }, {

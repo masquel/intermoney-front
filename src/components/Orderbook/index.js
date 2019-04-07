@@ -26,12 +26,12 @@ const getOrderBookFromArray = (array, type, options) => {
     let keyList = [];
 
     for (let i = 0; i < array.length; i++) {;
-        const itemPrice = array[i][0];
+        const itemPrice = array[i].price;
 
         if(!firstIndex){
           firstIndex = i;
         } else {
-          const firstIndexPrice = array[firstIndex][0];
+          const firstIndexPrice = array[firstIndex].price;
           if(firstIndexPrice > itemPrice){
             firstIndex = i;
           }
@@ -61,7 +61,7 @@ const getOrderBookFromArray = (array, type, options) => {
             let priceLevel = parsePrice(keyList[k], stepValue);
 
             const levelIndex = filledPriceLevel.indexOf(priceLevel);
-            const amount = parseFloat(objectByPrice[keyList[k]][1]);
+            const amount = parseFloat(objectByPrice[keyList[k]].size);
             if (levelIndex == -1) {
                 if(type === "bid"){
                     list.push({

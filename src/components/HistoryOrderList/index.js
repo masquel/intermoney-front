@@ -4,7 +4,7 @@ import moment from "moment/moment";
 
 import OrderList from "../OrderList";
 import { fetchHistoryOrderList } from '../../reducers/Orders';
-import { processApiError } from '../../reducers/helpers';
+
 
 const formatOrderDate = date => moment(date).format("DD/MM/YYYY HH:mm:ss");
 

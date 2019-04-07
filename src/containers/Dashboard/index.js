@@ -8,6 +8,7 @@ import Card from '../../components/Card';
 import { fetchTickers } from '../../reducers/Tickers';
 import { fetchOrderBook } from '../../reducers/Orderbook';
 import { fetchHistoryOrderList, fetchActiveOrderList } from '../../reducers/Orders';
+import { processApiError } from '../../reducers/helpers';
 
 import SymbolInfo from '../../components/SymbolInfo';
 import SymbolList from '../../components/SymbolList';
@@ -32,7 +33,8 @@ const mapDispatchToProps = {
 	fetchTickers,
 	fetchOrderBook,
 	fetchHistoryOrderList,
-	fetchActiveOrderList
+	fetchActiveOrderList,
+	processApiError
 };
 
 class Dashboard extends React.Component {
@@ -57,7 +59,7 @@ class Dashboard extends React.Component {
 		}
 	}
 	render(){
-		const { match, tickers, orderBook, activeOrders, orders } = this.props;
+		const { match, tickers, orderBook, activeOrders, orders, processApiError } = this.props;
 		const { pair } = match.params;
 		const ticker = tickers[pair] || {};
 		const lastPrice = ticker.lastPrice || 0;
@@ -97,7 +99,12 @@ class Dashboard extends React.Component {
 				<Row>
 					<Col md={24} sm={24} xs={24}>
 						<Card>
-							<ActiveOrdersList {...activeOrders} tickers={tickers} ticker={ticker} />	
+							<ActiveOrdersList
+								{...activeOrders}
+								tickers={tickers}
+								ticker={ticker}
+								processApiError={processApiError}
+							/>	
 						</Card>
 						<Card>
 							<HistoryOrdersList {...orders} tickers={tickers} ticker={ticker}/>
