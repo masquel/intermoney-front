@@ -14,6 +14,7 @@ import OrderList from "../OrderList";
 
 const formatOrderDate = date => moment(date).format("DD/MM/YYYY HH:mm:ss");
 
+const formatPrice = number => number / 1000000000000000000;
 
 class ActiveOrderList extends Component {
     state = {
@@ -70,22 +71,22 @@ class ActiveOrderList extends Component {
             }
         }, {
             title: "Type",
-            dataIndex: "execution_type"
+            dataIndex: "order_type"
         }, {
             title: "Side",
             dataIndex: "side"
         }, {
             title: "Price",
-            render: (text, record) => (<div>{record.price || '-'}</div>)
+            render: (text, record) => (<div>{formatPrice(record.price) || '-'}</div>)
         }, {
             title: "Amount",
-            dataIndex: "amount"
+            render: (text, record) => (<div>{formatPrice(record.size) ||'-'}</div>)
         }, {
             title: "Filled",
-            dataIndex: "filled"
+            render: (text, record) => (<div>{formatPrice(record.filled) ||'-'}</div>)
         }, {
             title: "Total",
-            render: (text, record) => (<div>{record.price * record.filled || '-'}</div>)
+            render: (text, record) => (<div>{formatPrice(record.price) * formatPrice(record.filled) || '-'}</div>)
         }, {
             className: 'text-center',
             title: (

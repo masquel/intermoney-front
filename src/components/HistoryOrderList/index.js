@@ -8,6 +8,8 @@ import { processApiError } from '../../reducers/helpers';
 
 const formatOrderDate = date => moment(date).format("DD/MM/YYYY HH:mm:ss");
 
+const formatPrice = number => number / 1000000000000000000;
+
 class HistoryOrderList extends Component {
     render() {
     	const { fetchHistoryOrderList, tickers, ...props } = this.props;
@@ -32,13 +34,13 @@ class HistoryOrderList extends Component {
             dataIndex: "side"
         }, {
             title: "Price",
-            render: (text, record) => <div>{record.price || '-'}</div>
+            render: (text, record) => <div>{formatPrice(record.price) || '-'}</div>
         }, {
             title: "Amount",
-            dataIndex: "size"
+            render: (text, record) => (<div>{formatPrice(record.size) ||'-'}</div>)
         }, {
             title: "Total",
-            render: (text, record) => (<div>{(record.price * record.filled).toFixed(8) || '-'}</div>)
+            render: (text, record) => (<div>{(formatPrice(record.price) * formatPrice(record.filled)).toFixed(8) || '-'}</div>)
         }, {
             title: "Status",
             dataIndex: "status"

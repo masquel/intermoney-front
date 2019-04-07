@@ -51,3 +51,7 @@ export const cancelAllOrders = () => {
 export const getTickers = (address) => {
 	return api.get("/markets/");
 };
+
+export const getNextNonce = () => {
+	return api.get("/orders/get_next_nonce/")
+};

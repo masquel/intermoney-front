@@ -43,7 +43,7 @@ class OrderAction extends Component {
                         />
                     </Col>
                 </TabPane>
-                <TabPane tab="Market" key="2">
+                <TabPane tab="Market" key="2" disabled>
                     <Col md={12} sm={24} xs={24}>
                         <MarketBuy
                             fetchOrders={fetchOrders}

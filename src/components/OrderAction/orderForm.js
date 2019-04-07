@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, Input, Select, message } from 'antd';
 import Web3 from 'web3';
 
-import { createOrder, getWallets, getActiveOrders, getHistoryOrders } from '../../api';
+import { createOrder, getWallets, getActiveOrders, getHistoryOrders, getNextNonce } from '../../api';
 
 import { Row, Col } from '../Grid';
 
@@ -127,24 +127,25 @@ class OrderForm extends Component {
 
             const web3 = new Web3(window.web3.currentProvider);
             web3.eth.getAccounts().then(accounts => {
+
                 const direction = side === "sell" ? false : true;
+                return getNextNonce(accounts[0])
+                    .then(response => {
+                        const { nonce } = response.data;
+                        // const hashParams = [
+                        //     {t: 'uint256', v: 0}, // nonce
+                        //     {t: 'uint256', v: 5000}, // amount
+                        //     {t: 'uint256', v: 2}, // price
+                        //     {t: 'bool', v: 1} // direction (sell - false, buy - true)
+                        // ];
+                        //const hashParams = getHashParams(0, 5000, 20000, true);
+                        const hashParams = getHashParams(nonce, amount, price, direction);
 
-                const nonce = 1;
-                
-
-                // const hashParams = [
-                //     {t: 'uint256', v: 0}, // nonce
-                //     {t: 'uint256', v: 5000}, // amount
-                //     {t: 'uint256', v: 2}, // price
-                //     {t: 'bool', v: 1} // direction (sell - false, buy - true)
-                // ];
-                //const hashParams = getHashParams(0, 5000, 20000, true);
-                const hashParams = getHashParams(nonce, amount, price, direction);
-
-                console.log('hashParams', hashParams);
-                const soliditySha3 = web3.utils.soliditySha3(...hashParams);
-                
-                return web3.eth.sign(soliditySha3, accounts[0])
+                        console.log('hashParams', hashParams);
+                        const soliditySha3 = web3.utils.soliditySha3(...hashParams);
+                        
+                        return web3.eth.sign(soliditySha3, accounts[0])  
+                    })
             }).then(signature => {
                 console.log(signature);
                 //message.success(signature);
