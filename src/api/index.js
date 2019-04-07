@@ -8,6 +8,8 @@ export const api = axios.create({
 	baseURL: API_URL + '/api'
 });
 
+api.defaults.headers.common['Authorization'] = 'Auth=0x2f618c7606f040340fb2f34f4c58ff2183119913';
+
 
 export const getOrderBook = (market) => {
 	return api.get(`/markets/${market}/orderbook/`);

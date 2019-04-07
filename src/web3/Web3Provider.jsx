@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import AccountUnavailable from './AccountUnavailable';
 import Web3Unavailable from './Web3Unavailable';
 
+import { api } from '../api';
+
 const isEmpty = require('lodash/isEmpty');
 const range = require('lodash/range');
 
@@ -142,17 +144,25 @@ class Web3Provider extends React.Component {
     }
 
     console.log("store");
-
+    const didLogin = !curr && next;
+    const didLogout = curr && !next;
+    if(didLogout){
+      api.defaults.headers.common['Authorization'] = null;
+    }else if(didLogin || (isConstructor && next)){
+      api.defaults.headers.common['Authorization'] = 'Auth=' + next;
+    }else if(didChange){
+      api.defaults.headers.common['Authorization'] = 'Auth=' + next;
+    }
     // If available, dispatch redux action
     if (store && typeof store.dispatch === 'function') {
-      const didLogin = !curr && next;
-      const didLogout = curr && !next;
+      
 
       if (didLogout) {
         store.dispatch({
           type: 'web3/LOGOUT',
           address: null
-        })
+        });
+        api.defaults.headers.common['Authorization'] = null;
       } else if (didLogin || (isConstructor && next)) {
         store.dispatch({
           type: 'web3/RECEIVE_ACCOUNT',
@@ -162,7 +172,7 @@ class Web3Provider extends React.Component {
         store.dispatch({
           type: 'web3/CHANGE_ACCOUNT',
           address: next
-        })
+        });
       }
     }
   }
