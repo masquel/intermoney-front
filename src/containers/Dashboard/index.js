@@ -46,9 +46,12 @@ class Dashboard extends React.Component {
 		const { match } = this.props;
 		const { pair } = match.params;
  		const { web3 } = window;
-		this.props.fetchTickers();
+		this.props.fetchTickers().then((tickers) => {
+			const ticker = tickers[pair];
+			this.props.fetchOrderBook(ticker.id);
+		});
 		this.fetchOrders();
-		//this.props.fetchOrderBook(pair);
+		
 	}
 	componentDidMount(){
 		this.fetchData();

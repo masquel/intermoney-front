@@ -12,11 +12,7 @@ api.defaults.headers.common['Authorization'] = 'Auth=0x2f618c7606f040340fb2f34f4
 
 
 export const getOrderBook = (market) => {
-	return api.get("/orders/orderbook/", {
-		params: {
-			market
-		}
-	});
+	return api.get(`/markets/${market}/orderbook/`);
 };
 
 export const createOrder = ({type, side, ...order}) => {

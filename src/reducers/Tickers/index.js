@@ -11,10 +11,12 @@ export const fetchTickers = (account) => dispatch => {
 	dispatch({type: FETCH_START});
 	return getTickers(account)
 		.then(response => {
+			const byName = arrayToObjectByKey(response.data, 'name');
 			dispatch({
 				type: FETCH_SUCCESS,
-				payload: arrayToObjectByKey(response.data, 'name')
+				payload: byName
 			})
+			return byName;
 		})
 		.catch(error => {
 			dispatch(processApiError(error));
