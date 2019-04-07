@@ -14,15 +14,6 @@ import OrderList from "../OrderList";
 
 const formatOrderDate = date => moment(date).format("DD/MM/YYYY HH:mm:ss");
 
-const mapStateToProps = (state, ownProps) => ({
-    ...state.Orders.activeOrders
-});
-
-const mapDispatchToProps = {
-    fetchActiveOrderList,
-    processApiError,
-    fetchWallets
-}
 
 class ActiveOrderList extends Component {
     state = {
@@ -63,7 +54,7 @@ class ActiveOrderList extends Component {
         }
     }
     render() {
-    	const { fetchActiveOrderList, instruments,  ...props } = this.props;
+    	const { tickers,  ...props } = this.props;
         const columns = [ {
             title: "Date",
             render: (text, record) => {
@@ -72,9 +63,9 @@ class ActiveOrderList extends Component {
         }, {
             title: "Pair",
             render: (text, record) => {
-                const instrument = instruments[record.instrument];
-                const base_currency = instrument ? instrument.base_currency : '';
-                const quote_currency = instrument ? instrument.quote_currency : '';
+                const ticker = tickers[record.market_display];
+                const base_currency = ticker ? ticker.base_currency : '';
+                const quote_currency = ticker ? ticker.quote_currency : '';
                 return <div>{base_currency}/{quote_currency}</div>;
             }
         }, {
@@ -128,37 +119,12 @@ class ActiveOrderList extends Component {
                         </Popconfirm>    
                     </div>
                 )
-            },
-            filters: [{
-                text: "All",
-                value: 'all'
-            },{
-                text: "Limit order",
-                value: 'limit'
-            },{
-                text: "Market order",
-                value: 'market'
-            }],
-            filterMultiple: false,
-            onFilter: (value, record) => {
-                if(value === 'all') return true;
-                return value === record.execution_type
             }
-        }, /*{
-            title: "Order Id",
-            key: "orderId",
-            render: (text, record) => (
-                <span title={record.id}>
-                    {record.id.substring(0,11)}...
-                </span>
-            )
-        }*/];
-        const title = (<span>Open orders{" "}({props.pagination.total})</span>);
+        }];
+        const title = (<span>Open orders</span>);
         return(
     		<OrderList 
                 title={title}
-                fetch={fetchActiveOrderList}
-                limit={5}
                 columns={columns}
                 {...props}
             />
@@ -166,4 +132,4 @@ class ActiveOrderList extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActiveOrderList);
+export default ActiveOrderList;

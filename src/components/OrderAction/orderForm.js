@@ -107,67 +107,14 @@ class OrderForm extends Component {
             });
         }
     };
-    handleFormSubmit = e => {
-        e.preventDefault();
-        const { lastPrice, ticker, type, side } = this.props;
-        const { amount, price } = this.state;
-        const currentPrice = (price || lastPrice).toString();
-        this.setState({ loading: true });
-        const { web3 } = window;
-        if(!web3){
-            alert('No web3!');
-        }else{
-            web3.eth.sign(web3.eth.accounts[0], 'test', (error, result) => {
-                if(error) {
-                    console.log(error)
-                    message.error(error.message);
-                }else{
-                    console.log(result);
-                    createOrder({
-                        instrument: ticker.name,
-                        amount: amount,
-                        execution_type: type.toLowerCase(),
-                        price: type.toLowerCase() === "market" ? undefined : currentPrice,
-                        side
-                    })
-                        .then(response => {
-                            this.setState({
-                                loading: false,
-                                amount: 0.0
-                            });
-                            getActiveOrders(5, 0);
-                            getHistoryOrders(10, 0);
-                            getWallets();
-                            message.success("Order added successfully.");
-                        })
-                        .catch(error => {
-                            if (error.response && error.response.data) {
-                                console.log(error.response.data);
-                                message.error(error.response.data.error.message);
-                            } else {
-                                message.error(
-                                    `Something wrong. Order didn't create. ${error}`
-                                );
-                            }
-                            console.error(error);
-                            this.setState({
-                                loading: false
-                            });
-                        });  
-                }
-            });
-           
-        }
-    };
     handleSignOrder = (e) => {
         e.preventDefault();
-        const { lastPrice, ticker, type, side } = this.props;
+        const { ticker, type, side } = this.props;
         let { amount, price } = this.state;
-        const currentPrice = (price || lastPrice).toString();
-        if(amount < 0 ){
+        if(amount <= 0 ){
             return;
         }
-        if(price < 0){
+        if(price <= 0){
             return;
         }
         this.setState({ loading: true });
@@ -177,7 +124,7 @@ class OrderForm extends Component {
         }else{
             amount = window.web3.toWei(amount);
             price = window.web3.toWei(price);
-            console.log(amount, price);
+
             const web3 = new Web3(window.web3.currentProvider);
             web3.eth.getAccounts().then(accounts => {
                 const direction = side === "sell" ? false : true;
@@ -203,10 +150,10 @@ class OrderForm extends Component {
                 //message.success(signature);
                 
                 createOrder({
-                    market: ticker.name,
+                    market: ticker.id,
                     size: amount,
                     type: type.toLowerCase(),
-                    price: type.toLowerCase() === "market" ? undefined : currentPrice,
+                    price: type.toLowerCase() === "market" ? undefined : price,
                     hash_signature: signature,
                     side
                 })
@@ -215,6 +162,7 @@ class OrderForm extends Component {
                             loading: false,
                             amount: 0.0
                         });
+                        this.props.fetchOrders();
                         message.success("Order added successfully.");
                     })
                     .catch(error => {
@@ -293,6 +241,7 @@ class OrderForm extends Component {
         total = roundTotal(total);
         const orderAction = orderActions[side];
         const orderButtonProps = orderButtonsProps[side];
+        const canSubmit = !loading && (amount > 0 && price > 0 );
         return (
             <Form onSubmit={this.handleSignOrder} className="order-form">
                 <h3 className="order-form__title">
@@ -365,7 +314,7 @@ class OrderForm extends Component {
                             htmlType="submit"
                             loading={loading}
                             {...orderButtonProps}
-                            disabled={loading}
+                            disabled={!canSubmit}
                         >
                             {orderAction}{" "}{buyCurrency}
                         </Button>

@@ -21,8 +21,7 @@ export const getOrderBook = (market) => {
 
 export const createOrder = ({type, side, ...order}) => {
 	console.log(`/orders/${side}_${type}/`, order);
-	return Promise.resolve();
-	//return api.post(`/orders/${side}_${type}/`, order);
+	return api.post(`/orders/${side}_${type}/`, order);
 };
 
 export const getWallets = () => {

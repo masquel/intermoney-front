@@ -13,7 +13,7 @@ const TabPane = Tabs.TabPane;
 
 class OrderAction extends Component {
     render() {
-        const { ticker, wallets } = this.props;
+        const { ticker, wallets, fetchOrders } = this.props;
         const lastPrice = ticker.last_price || 0;
         const buyWallet = wallets.find(wallet => {
             const currency = ticker ? ticker.quote_currency_display : null;
@@ -28,6 +28,7 @@ class OrderAction extends Component {
                 <TabPane tab="Limit" key="1">
                     <Col md={12} sm={24} xs={24}>
                         <LimitBuy
+                            fetchOrders={fetchOrders}
                             lastPrice={lastPrice}
                             ticker={ticker}
                             wallet={buyWallet}
@@ -35,6 +36,7 @@ class OrderAction extends Component {
                     </Col>
                     <Col md={12} sm={24} xs={24}>
                         <LimitSell
+                            fetchOrders={fetchOrders}
                             lastPrice={lastPrice}
                             ticker={ticker}
                             wallet={sellWallet}
@@ -44,6 +46,7 @@ class OrderAction extends Component {
                 <TabPane tab="Market" key="2">
                     <Col md={12} sm={24} xs={24}>
                         <MarketBuy
+                            fetchOrders={fetchOrders}
                             lastPrice={lastPrice}
                             ticker={ticker}
                             wallet={buyWallet}
@@ -51,6 +54,7 @@ class OrderAction extends Component {
                     </Col>
                     <Col md={12} sm={24} xs={24}>
                         <MarketSell
+                            fetchOrders={fetchOrders}
                             lastPrice={lastPrice}
                             ticker={ticker}
                             wallet={sellWallet}

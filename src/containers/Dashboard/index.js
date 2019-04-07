@@ -23,25 +23,29 @@ import './Dashboard.css';
 const mapStateToProps = (state) => {
 	return {
 		tickers: state.Tickers.tickers,
-		orderBook: state.Orderbook.data
+		orderBook: state.Orderbook.data,
+		...state.Orders
 	}
 };
 
 const mapDispatchToProps = {
 	fetchTickers,
 	fetchOrderBook,
-	fetchHistoryOrderList
+	fetchHistoryOrderList,
+	fetchActiveOrderList
 };
 
 class Dashboard extends React.Component {
+	fetchOrders = () => {
+		this.props.fetchHistoryOrderList();
+		this.props.fetchActiveOrderList();
+	}
 	fetchData = () => {
 		const { match } = this.props;
 		const { pair } = match.params;
  		const { web3 } = window;
-		if(web3){
-			const { accounts } = web3.eth;
-			this.props.fetchTickers(accounts[0]);
-		}
+		this.props.fetchTickers();
+		this.fetchOrders();
 		//this.props.fetchOrderBook(pair);
 	}
 	componentDidMount(){
@@ -53,7 +57,7 @@ class Dashboard extends React.Component {
 		}
 	}
 	render(){
-		const { match, tickers, orderBook } = this.props;
+		const { match, tickers, orderBook, activeOrders, orders } = this.props;
 		const { pair } = match.params;
 		const ticker = tickers[pair] || {};
 		const lastPrice = ticker.lastPrice || 0;
@@ -78,6 +82,7 @@ class Dashboard extends React.Component {
 									<OrderAction
 										ticker={ticker}
 										lastPrice={lastPrice}
+										fetchOrders={this.fetchOrders}
 									/>
 								</Card>
 							</Col>
@@ -92,10 +97,10 @@ class Dashboard extends React.Component {
 				<Row>
 					<Col md={24} sm={24} xs={24}>
 						<Card>
-							<ActiveOrdersList />	
+							<ActiveOrdersList {...activeOrders} tickers={tickers} ticker={ticker} />	
 						</Card>
 						<Card>
-							<HistoryOrdersList />
+							<HistoryOrdersList {...orders} tickers={tickers} ticker={ticker}/>
 						</Card>
 					</Col>
 				</Row>

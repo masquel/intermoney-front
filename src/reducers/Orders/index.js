@@ -16,9 +16,9 @@ export const FETCH_ACTIVE_ORDERS_FAILURE = "orders/active/FETCH_FAILURE";
 export const CANCEL_ORDER = "orders/cancel";
 
 
-export const fetchHistoryOrderList = (session_key, limit, offset) => dispatch => {
+export const fetchHistoryOrderList = () => dispatch => {
     dispatch({type: FETCH_ORDERS_START});
-    getHistoryOrders(session_key, limit, offset)
+    getHistoryOrders()
         .then(response => {
             dispatch({type: FETCH_ORDERS_SUCCESS, payload: response.data});
         })
@@ -28,9 +28,9 @@ export const fetchHistoryOrderList = (session_key, limit, offset) => dispatch =>
         })
 }
 
-export const fetchActiveOrderList = (session_key, limit, offset) => dispatch => {
+export const fetchActiveOrderList = () => dispatch => {
     dispatch({type: FETCH_ACTIVE_ORDERS_START});
-    getActiveOrders(session_key, limit, offset)
+    getActiveOrders()
         .then(response => {
             dispatch({type: FETCH_ACTIVE_ORDERS_SUCCESS, payload: response.data});
         })
@@ -49,21 +49,11 @@ const initialState = {
     activeOrders: {
     	loading: false,
     	data: [],
-    	pagination: {
-    		total: 0,
-    		size: 10,
-    		page: 1
-    	},
     	error: null
     },
     orders: {
     	loading: false,
     	data: [],
-    	pagination: {
-    		total: 0,
-    		size: 10,
-    		page: 1
-    	},
     	error: null
     }
 };
@@ -81,12 +71,7 @@ const activeOrderReducer = (state = initialState.activeOrders, action) => {
 			return {
 				...state,
 				loading: false,
-				data: action.payload.orders,
-				pagination: {
-					total: action.payload.page.sum_count,
-					size: action.payload.page.limit,
-					page: action.payload.page.offset / action.payload.page.limit + 1
-				}
+				data: action.payload,
 			}
 		};
 		case FETCH_ACTIVE_ORDERS_FAILURE: {
@@ -119,12 +104,7 @@ const orderReducer = (state = initialState.orders, action) => {
 			return {
 				...state,
 				loading: false,
-				data: action.payload.orders,
-				pagination: {
-					total: action.payload.page.sum_count,
-					size: action.payload.page.limit,
-					page: action.payload.page.offset / action.payload.page.limit + 1
-				}
+				data: action.payload
 			}
 		};
 		case FETCH_ORDERS_FAILURE: {
