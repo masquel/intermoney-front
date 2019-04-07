@@ -16,7 +16,7 @@ const RadioGroup = Radio.Group;
 
 class SymbolListButtons extends Component {
     render() {
-        const buttons = ["BTC", "ETH", "USDT"];
+        const buttons = ["EUR", "USD"];
         const { active, onClick } = this.props;
         return (
             <div className="symbol-lists__buttons">
@@ -135,32 +135,27 @@ class SymbolList extends Component {
     };
     renderSymbolList = () => {
         const { activeList, filterValue, activeField } = this.state;
-        const {
-            defaultSymbol,
-            symbolList,
-            instrumentObject,
-            tickers,
-        } = this.props;
+        const { symbol, tickers } = this.props;
+        const symbolList = Object.keys(tickers);
         if (!symbolList) {
             return null;
         }
         let activeSymbolList = [];
         activeSymbolList = symbolList.filter(item => {
-            const pairInfo = instrumentObject[item];
-            return activeList === pairInfo.quote_currency;
+            const pairInfo = tickers[item];
+            return activeList === pairInfo.quote_currency_display;
         });
         const filteredSymbolList = activeSymbolList.filter(item => {
-            const pairInfo = instrumentObject[item];
+            const pairInfo = tickers[item];
             if(pairInfo){
                 return (
-                    pairInfo.quote_currency
+                    pairInfo.quote_currency_display
                         .toLowerCase()
                         .indexOf(filterValue.toLowerCase()) > -1
                 );
             }
             return false
         }).map(item => ({
-            ...instrumentObject[item],
             ...tickers[item]
         }));
         const columns = [{
@@ -168,7 +163,7 @@ class SymbolList extends Component {
             title: "Pair",
             render: (text, record) => {
                 const item = record.symbol;
-                const active = item === defaultSymbol;
+                const active = item === symbol;
                 
                 return active ? (
                     <div>

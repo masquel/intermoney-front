@@ -8,6 +8,8 @@ const api = axios.create({
 	baseURL: API_URL + '/api'
 })
 
+api.defaults.headers.common['Authorization'] = 'Auth=0x2f618c7606f040340fb2f34f4c58ff2183119913';
+
 
 export const getOrderBook = () => {
 	return new Promise((resolve, reject) => {
@@ -65,30 +67,15 @@ export const getWallets = () => {
 };
 
 export const getActiveOrders = (address) => {
-	return api.get("/orders/active", {
-		headers: {
-			'Authorization': 'Address ' + address,
-			'Content-Type': 'application/json'
-		}
-	});
+	return api.get("/orders/active");
 };
 
 export const getHistoryOrders = (address) => {
-	return api.get("/orders/", {
-		headers: {
-			'Authorization': 'Address ' + address,
-			'Content-Type': 'application/json'
-		}
-	});
+	return api.get("/orders/");
 };
 
 export const cancelOrder = (id, address) => {
-	return api.delete("/orders/"+id, {
-		params: {
-			'Authorization': 'Address ' + address,
-			'Content-Type': 'application/json'
-		}
-	})
+	return api.delete("/orders/"+id)
 };
 
 export const cancelAllOrders = () => {
@@ -98,10 +85,5 @@ export const cancelAllOrders = () => {
 };
 
 export const getTickers = (address) => {
-	return api.get("/markets/", {
-		headers: {
-			'Authorization': 'Address ' + address,
-			'Content-Type': 'application/json'
-		}
-	});
+	return api.get("/markets/");
 };
