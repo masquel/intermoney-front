@@ -86,19 +86,13 @@ export const cancelAllOrders = () => {
 	return new Promise((resolve) => {
 		resolve();
 	});
-}
-
-export const getTickers = () => {
-	return new Promise((resolve) => {
-		resolve();
-	});
 };
 
-export const getMarkets = (address) => {
+export const getTickers = (address) => {
 	return api.get("/markets/", {
 		headers: {
 			'Authorization': 'Address ' + address,
-			'Content-Types': 'application/json'
+			'Content-Type': 'application/json'
 		}
 	});
 };

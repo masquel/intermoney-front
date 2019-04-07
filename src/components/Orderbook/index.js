@@ -142,7 +142,8 @@ class OrderBook extends Component {
             stepValue: 2,
             depth: 30
         };
-        this.firstAsk = React.createRef();
+        this.askPriceList = React.createRef();
+        this.askPriceListBottom = React.createRef();
     }
 
     buildOrderBook = () => {
@@ -152,7 +153,7 @@ class OrderBook extends Component {
     componentDidMount() {
         this.buildOrderBook();
     }
-    renderPriceList = type => {
+    renderPriceList = (type, render, ref) => {
         const { orderBook } = this.props;
         const { show, stepValue, depth } = this.state;
         let maxAmount = 0;
@@ -172,9 +173,9 @@ class OrderBook extends Component {
         });
 
         return (
-            <div className="order-book__price-list">
+            <div ref={type === "ask" ? this.askPriceList : null} className="order-book__price-list">
                 {
-                    price_list.map((listItem, index) => {
+                    render ? price_list.map((listItem, index) => {
 
                         let { amount, price } = listItem;
                         let fillPercent = 0;
@@ -187,11 +188,8 @@ class OrderBook extends Component {
                                 this.props.onSelectPrice(price);    
                             }
                         }
-                        
-                        let useRef = (price_list.length - 1 === index && type === "ask");
                         return (
                             <OrderBookCell
-                                ref={useRef ? this.firstAsk : undefined}
                                 key={index}
                                 type={type}
                                 price={price}
@@ -200,8 +198,9 @@ class OrderBook extends Component {
                                 onClick={onClick}
                             />
                         );
-                    })
+                    }) : null
                 }
+                {type === "ask" ? <div ref={this.askPriceListBottom} /> : null}
             </div>
         )
     };
@@ -211,8 +210,11 @@ class OrderBook extends Component {
         const { value } = e.target;
         this.setState({ show: value });
         if(value === "asks"){
-            console.log(this.firstAsk);
-            //this.firstAsk.current.scrollIntoView();
+            if(this.askPriceList.current){
+                const height = this.askPriceList.current.scrollHeight;
+                console.log('height', height);
+                this.askPriceList.current.scrollTo(0, height);
+            }
         }
     };
 
@@ -289,11 +291,11 @@ class OrderBook extends Component {
                     </Row>
                 </div>
                 <div className="order-book__inner">
-                    {(showAll || showAsks) && this.renderPriceList("ask")}
+                    {this.renderPriceList("ask", showAll || showAsks)}
                     <div className="order-book__last-price">
                         {"—"}
                     </div>
-                    {(showAll || showBids) && this.renderPriceList("bid")}
+                    {this.renderPriceList("bid", showAll || showBids)}
                 </div>
             </div>
         );

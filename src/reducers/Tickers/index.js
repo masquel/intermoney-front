@@ -7,9 +7,9 @@ export const FETCH_START = "tickers/FETCH_START";
 export const FETCH_SUCCESS = "tickers/FETCH_SUCCESS";
 export const FETCH_FAILURE = "tickers/FETCH_FAILURE";
 
-export const fetchTickers = () => dispatch => {
+export const fetchTickers = (account) => dispatch => {
 	dispatch({type: FETCH_START});
-	getTickers()
+	return getTickers(account)
 		.then(response => {
 			dispatch({
 				type: FETCH_SUCCESS,

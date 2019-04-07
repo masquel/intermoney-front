@@ -182,24 +182,29 @@ class OrderForm extends Component {
                     sell - 0
                     buy - 1
                 */
-                //const direction = side === "sell" ? 0 : 1;
+                const direction = side === "sell" ? 0 : 1;
 
                 const nonce = 1;
-                const sellValue = 1000;
-                const sellRate = 10;
-                const direction = false;
+                //const sellValue = 1000;
+                //const sellRate = 10;
+                //const direction = false;
                 // const soliditySha3 = web3.utils.soliditySha3(
                 //     {t: 'uint256', v: nonce},
-                //     {t: 'uint256', v: web3.toWei(amount)},
-                //     {t: 'uint256', v: web3.toWei(price)},
+                //     {t: 'uint256', v: sellValue},
+                //     {t: 'uint256', v: sellRate},
                 //     {t: 'bool', v: direction}
                 // );
-                const soliditySha3 = web3.utils.soliditySha3(
+
+                const hashParams = [
                     {t: 'uint256', v: nonce},
-                    {t: 'uint256', v: sellValue},
-                    {t: 'uint256', v: sellRate},
+                    {t: 'uint256', v: window.web3.toWei(amount)},
+                    {t: 'uint256', v: window.web3.toWei(price)},
                     {t: 'bool', v: direction}
-                );
+                ];
+
+                console.log('hashParams', hashParams);
+                const soliditySha3 = web3.utils.soliditySha3(...hashParams);
+                
                 return web3.eth.sign(soliditySha3, accounts[0])
             }).then(signature => {
                 console.log(signature);

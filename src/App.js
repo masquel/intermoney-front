@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import web3 from './web3';
 
 import Header from './components/Header';
@@ -19,8 +20,15 @@ class App extends Component {
       <Provider store={store}>
         <Web3Provider>
           <div className="app">
-            <Header />  
-            <Dashboard />
+            <Header />
+            <Router>
+              <div>
+                <Switch>
+                  <Route path="/trade/:pair" component={Dashboard} />
+                  <Redirect from="/" to="/trade/EUR_USD" />
+                </Switch>
+              </div>
+            </Router>
             <Footer />
           </div>
         </Web3Provider>

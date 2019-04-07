@@ -1,37 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import { getMarkets } from '../../api';
-import { fetchTickers } from '../../reducers/Tickers';
 
 import { Row, Col } from '../Grid';
 
 import './SymbolInfo.css';
 
 
-const mapStateToProps = (state, ownProps) => {
-	return {
-        symbol: state.App.defaultSymbol,
-        tickers: state.Tickers.tickers,
-        instrumentObject: {}
-	}
-}
-
-const mapDispatchToProps = {
-	fetchTickers
-};
-
 class SymbolInfo extends React.Component {
-	componentDidMount(){
-		const { web3 } = window;
-		if(web3){
-			const { accounts } = web3.eth;
-			getMarkets(accounts[0]).then((response) => {
-				console.log(response);
-			})	
-		}
-		//this.props.fetchTickers();
-	}
 	render(){
 		const { symbol, instrumentObject, tickers } = this.props;
 		const instrument = instrumentObject[symbol] || {};
@@ -78,4 +52,10 @@ class SymbolInfo extends React.Component {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SymbolInfo);
+SymbolInfo.defaultProps = {
+	symbol: '',
+	instrumentObject: {},
+	tickers: {}
+}
+
+export default SymbolInfo;

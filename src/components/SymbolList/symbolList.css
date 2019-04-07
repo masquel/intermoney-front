@@ -1,0 +1,30 @@
+.symbol-lists{
+	background-color: #fff;
+	width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    border: 1px solid#ebebeb;
+}
+
+.symbol-lists__buttons {
+	padding: 5px;
+	background-color: #fafafa;
+}
+
+.symbol-lists__button {
+	margin-left: 5px;
+}
+
+.symbol-lists__filter {
+	padding: 5px;
+}
+
+.symbol-list {
+	height: 340px;
+	overflow-y: auto;
+}
+
+.symbol-lists__field {
+	text-align: right;
+	padding: 6px 5px;
+}
