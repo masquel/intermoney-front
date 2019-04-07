@@ -20,7 +20,6 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {
     fetchActiveOrderList,
-    cancelOrder,
     processApiError,
     fetchWallets
 }
@@ -32,26 +31,36 @@ class ActiveOrderList extends Component {
     onCancelOrder = (orderId) => {
         const { cancelOrder, processApiError, fetchWallets } = this.props;
         return () => {
-            return cancelOrder(orderId)
-                .then((response) => {
-                    fetchWallets();
-                    message.success(`Order ${response.data.id} canceled`);
+            const { web3 } = window;
+            const { account } = web3.eth;
+            if(web3){
+                return cancelOrder(orderId, account[0])
+                    .then((response) => {
+                        fetchWallets(account[0]);
+                        message.success(`Order ${response.data.id} canceled`);
+                    })
+                    .catch(error => {
+                        processApiError(error)
+                    });
+            }else{
+                return Promise.reject("No Web3");
+            }
+        }
+    }
+    onCancelAllOrders = () => {
+        const { auth, processApiError } = this.props;
+        const { web3 } = window;
+        if(web3){
+            const { account } = web3.eth;
+            cancelAllOrders()
+                .then(() => {
+                    this.props.fetchWallets(account[0]);
+                    this.props.fetchActiveOrderList(account[0]);
                 })
                 .catch(error => {
                     processApiError(error)
                 });
         }
-    }
-    onCancelAllOrders = () => {
-        const { auth, processApiError } = this.props;
-        cancelAllOrders()
-            .then(() => {
-                this.props.fetchWallets();
-                this.props.fetchActiveOrderList(auth.idToken);
-            })
-            .catch(error => {
-                processApiError(error)
-            });
     }
     render() {
     	const { fetchActiveOrderList, instruments,  ...props } = this.props;

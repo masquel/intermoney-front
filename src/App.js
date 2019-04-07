@@ -25,7 +25,7 @@ class App extends Component {
               <div>
                 <Switch>
                   <Route path="/trade/:pair" component={Dashboard} />
-                  <Redirect from="/" to="/trade/EUR_USD" />
+                  <Redirect from="/" to="/trade/USDEUR" />
                 </Switch>
               </div>
             </Router>

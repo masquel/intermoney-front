@@ -3,6 +3,11 @@
 	background-color: #fff;
 }
 
+.card--flat {
+	padding: 0;
+	background-color: #fff;
+}
+
 .card--full-height {
 	height: 100%;
 }

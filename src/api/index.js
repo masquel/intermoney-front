@@ -64,21 +64,30 @@ export const getWallets = () => {
 	});
 };
 
-export const getActiveOrders = () => {
-	return new Promise((resolve) => {
-		resolve();
+export const getActiveOrders = (address) => {
+	return api.get("/orders/active", {
+		headers: {
+			'Authorization': 'Address ' + address,
+			'Content-Type': 'application/json'
+		}
 	});
 };
 
-export const getHistoryOrders = () => {
-	return new Promise((resolve) => {
-		resolve();
+export const getHistoryOrders = (address) => {
+	return api.get("/orders/", {
+		headers: {
+			'Authorization': 'Address ' + address,
+			'Content-Type': 'application/json'
+		}
 	});
 };
 
-export const cancelOrder = () => {
-	return new Promise((resolve) => {
-		resolve();
+export const cancelOrder = (id, address) => {
+	return api.delete("/orders/"+id, {
+		params: {
+			'Authorization': 'Address ' + address,
+			'Content-Type': 'application/json'
+		}
 	})
 };
 

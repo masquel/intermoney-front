@@ -124,12 +124,6 @@ const OrderBookCell = ({ type, price, amount, total, fillPercent, onClick, ref }
     );
 };
 
-const mapStateToProps = (state, ownProps) => ({
-    orderBook: state.Orderbook.data
-});
-
-const mapDispatchToProps = { fetchOrderBook };
-
 class OrderBook extends Component {
     constructor(props) {
         super(props);
@@ -144,14 +138,6 @@ class OrderBook extends Component {
         };
         this.askPriceList = React.createRef();
         this.askPriceListBottom = React.createRef();
-    }
-
-    buildOrderBook = () => {
-        this.props.fetchOrderBook();
-    };
-
-    componentDidMount() {
-        this.buildOrderBook();
     }
     renderPriceList = (type, render, ref) => {
         const { orderBook } = this.props;
@@ -300,6 +286,11 @@ class OrderBook extends Component {
             </div>
         );
     }
+};
+
+OrderBook.defaultProps = {
+    ask: [],
+    bid: []
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderBook);
+export default OrderBook;

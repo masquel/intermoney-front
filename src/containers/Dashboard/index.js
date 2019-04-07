@@ -5,7 +5,9 @@ import { withRouter } from 'react-router-dom';
 import { Row, Col } from '../../components/Grid';
 import Card from '../../components/Card';
 
-import { fetchTickers } from '../../reducers/Tickers'; 
+import { fetchTickers } from '../../reducers/Tickers';
+import { fetchOrderBook } from '../../reducers/Orderbook';
+import { fetchHistoryOrderList, fetchActiveOrderList } from '../../reducers/Orders';
 
 import SymbolInfo from '../../components/SymbolInfo';
 import SymbolList from '../../components/SymbolList';
@@ -20,27 +22,36 @@ import './Dashboard.css';
 
 const mapStateToProps = (state) => {
 	return {
-		tickers: state.Tickers.tickers
+		tickers: state.Tickers.tickers,
+		orderBook: state.Orderbook.data
 	}
 };
 
 const mapDispatchToProps = {
-	fetchTickers
+	fetchTickers,
+	fetchOrderBook,
+	fetchHistoryOrderList
 };
 
 class Dashboard extends React.Component {
 	fetchData = () => {
-		const { web3 } = window;
+		const { match } = this.props;
+		const { pair } = match.params;
+ 		const { web3 } = window;
 		if(web3){
 			const { accounts } = web3.eth;
 			this.props.fetchTickers(accounts[0]);
 		}
+		this.props.fetchOrderBook();
 	}
 	componentDidMount(){
 		this.fetchData();
 	}
 	render(){
-		console.log(this.props);
+		const { match, tickers, orderBook } = this.props;
+		const { pair } = match.params;
+		const ticker = tickers[pair] || {};
+		const lastPrice = ticker.lastPrice || 0;
 		return (
 			<div className="dashboard">
 				<Row>
@@ -48,22 +59,28 @@ class Dashboard extends React.Component {
 						<Row>
 							<Col xs={24}>
 								<Card>
-									<SymbolInfo />
+									<SymbolInfo ticker={ticker} />
 								</Card>
 							</Col>
 							<Col md={8} sm={24} xs={24}>
-								<Orderbook />
+								<Orderbook
+									orderBook={orderBook}
+									lastPrice={lastPrice}
+								/>
 							</Col>
 							<Col md={16} sm={24} xs={24}>
 								<Card fullHeight>
-									<OrderAction />
+									<OrderAction
+										ticker={ticker}
+										lastPrice={lastPrice}
+									/>
 								</Card>
 							</Col>
 						</Row>
 					</Col>
 					<Col md={6} sm={24} xs={24}>
-						<Card fullHeight>
-							<SymbolList />
+						<Card fullHeight flat>
+							<SymbolList tickers={tickers} ticker={ticker} />
 						</Card>
 					</Col>
 				</Row>

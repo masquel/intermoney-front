@@ -77,7 +77,6 @@ const symbolListFields = {
     "change": {
         //className: "text-right",
         title: "Change",
-        sorter: (a, b) => a.change_percent - b.change_percent,
         render: (text, record) => {
             if(!record.change_percent){
                 return "-";
@@ -88,7 +87,6 @@ const symbolListFields = {
     "volume": {
         //className: "text-right",
         title: "Volume",
-        sorter: (a, b) => a.volume - b.volume,
         render: (text, record) => {
             if(!record.volume){
                 return "-";
@@ -168,14 +166,13 @@ class SymbolList extends Component {
         const columns = [{
             width: 90,
             title: "Pair",
-            sorter: (a, b) => a.quote_currency - b.quote_currency,
             render: (text, record) => {
                 const item = record.symbol;
                 const active = item === defaultSymbol;
                 
                 return active ? (
                     <div>
-                        <span>{record.base_currency} / {record.quote_currency}</span>
+                        <span>{record.base_currency_display} / {record.quote_currency_display}</span>
                     </div>
                 ) : (
                     <div>
@@ -191,7 +188,6 @@ class SymbolList extends Component {
             render: (text, record) => {
                 return <div>{record.last_price || "-"}</div>
             },
-            sorter: (a, b) => a.last_price - b.last_price,
         }, symbolListFields[activeField]];
         return (
             <div className="symbol-list">

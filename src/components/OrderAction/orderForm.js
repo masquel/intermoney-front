@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Button, Form, Input, Select, message } from 'antd';
 import Web3 from 'web3';
 
@@ -75,21 +74,21 @@ const WalletBalance = ({ wallet }) => {
     );
 };
 
-const mapStateToProps = state => {
-    return {
-        lastPrice: 0,
-        instrument: {}
-    }
-};
+const getHashParams = (nonce, amount, price, direction) => {
+    return [
+        {t: 'uint256', v: nonce}, // nonce
+        {t: 'uint256', v: amount}, // amount
+        {t: 'uint256', v: price}, // price
+        {t: 'bool', v: direction} // direction (sell - 0, buy - 1)
+    ];
+}
 
-const mapDispatchToProps = {};
 
 class OrderForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             userHasInputPrice: false,
-            instrument: null,
             loading: false,
             price: props.lastPrice
         };
@@ -110,7 +109,7 @@ class OrderForm extends Component {
     };
     handleFormSubmit = e => {
         e.preventDefault();
-        const { lastPrice, instrument, type, side } = this.props;
+        const { lastPrice, ticker, type, side } = this.props;
         const { amount, price } = this.state;
         const currentPrice = (price || lastPrice).toString();
         this.setState({ loading: true });
@@ -125,7 +124,7 @@ class OrderForm extends Component {
                 }else{
                     console.log(result);
                     createOrder({
-                        instrument: instrument.symbol,
+                        instrument: ticker.name,
                         amount: amount,
                         execution_type: type.toLowerCase(),
                         price: type.toLowerCase() === "market" ? undefined : currentPrice,
@@ -160,7 +159,7 @@ class OrderForm extends Component {
            
         }
     };
-    handleSubscribeOrder = (e) => {
+    handleSignOrder = (e) => {
         e.preventDefault();
         const { side } = this.props;
         const { amount, price } = this.state;
@@ -177,30 +176,18 @@ class OrderForm extends Component {
         }else{
             const web3 = new Web3(window.web3.currentProvider);
             web3.eth.getAccounts().then(accounts => {
-                /* 
-                    Direction
-                    sell - 0
-                    buy - 1
-                */
                 const direction = side === "sell" ? 0 : 1;
 
                 const nonce = 1;
-                //const sellValue = 1000;
-                //const sellRate = 10;
-                //const direction = false;
-                // const soliditySha3 = web3.utils.soliditySha3(
-                //     {t: 'uint256', v: nonce},
-                //     {t: 'uint256', v: sellValue},
-                //     {t: 'uint256', v: sellRate},
-                //     {t: 'bool', v: direction}
-                // );
 
-                const hashParams = [
-                    {t: 'uint256', v: nonce},
-                    {t: 'uint256', v: window.web3.toWei(amount)},
-                    {t: 'uint256', v: window.web3.toWei(price)},
-                    {t: 'bool', v: direction}
-                ];
+                // const hashParams = [
+                //     {t: 'uint256', v: 0}, // nonce
+                //     {t: 'uint256', v: 5000}, // amount
+                //     {t: 'uint256', v: 2}, // price
+                //     {t: 'bool', v: 1} // direction (sell - 0, buy - 1)
+                // ];
+                //const hashParams = getHashParams(0, 5000, 20000, 1);
+                const hashParams = getHashParams(nonce, window.web3.toWei(amount), window.web3.toWei(price), direction);
 
                 console.log('hashParams', hashParams);
                 const soliditySha3 = web3.utils.soliditySha3(...hashParams);
@@ -253,16 +240,16 @@ class OrderForm extends Component {
 
     render() {
         const { price, amount, loading } = this.state;
-        const { instrument, lastPrice, type, side, wallet, intl } = this.props;
+        const { ticker, lastPrice, type, side, wallet, intl } = this.props;
 
         const isMarket = type === "MARKET";
         let buyCurrency = null;
         let sellCurrency = null;
 
-        if (instrument != null) {
+        if (ticker != null) {
             // if(side == "sell") {
-            buyCurrency = instrument["base_currency"];
-            sellCurrency = instrument["quote_currency"];
+            buyCurrency = ticker.base_currency_display;
+            sellCurrency = ticker.quote_currency_display;
             // } else {
             //     buyCurrency = instrument["base_currency"];
             //     sellCurrency = instrument["quote_currency"];
@@ -273,7 +260,7 @@ class OrderForm extends Component {
         const orderAction = orderActions[side];
         const orderButtonProps = orderButtonsProps[side];
         return (
-            <Form onSubmit={this.handleSubscribeOrder} className="order-form">
+            <Form onSubmit={this.handleSignOrder} className="order-form">
                 <h3 className="order-form__title">
                     {orderAction} {buyCurrency}{" "}
                     <WalletBalance wallet={wallet} />
@@ -352,4 +339,4 @@ class OrderForm extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderForm);
+export default OrderForm;

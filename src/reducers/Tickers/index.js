@@ -13,7 +13,7 @@ export const fetchTickers = (account) => dispatch => {
 		.then(response => {
 			dispatch({
 				type: FETCH_SUCCESS,
-				payload: arrayToObjectByKey(response.data.tickers, 'symbol')
+				payload: arrayToObjectByKey(response.data, 'name')
 			})
 		})
 		.catch(error => {
