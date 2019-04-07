@@ -58,7 +58,7 @@ class ActiveOrderList extends Component {
         const columns = [ {
             title: "Date",
             render: (text, record) => {
-                return(<div>{formatOrderDate(record.created_at/ 1000000)}</div>)
+                return(<div>{formatOrderDate(record.created_at)}</div>)
             }
         }, {
             title: "Pair",
