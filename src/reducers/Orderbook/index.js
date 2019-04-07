@@ -44,9 +44,9 @@ const FETCH_START = "app/orderbook/FETCH_START";
 const FETCH_SUCCESS  = "app/orderbook/FETCH_SUCCESS";
 const FETCH_FAILURE  = "app/orderbook/FETCH_SUCCESS"; 
 
-export const fetchOrderBook = () => dispatch => {
+export const fetchOrderBook = (symbol) => dispatch => {
 	dispatch({type: FETCH_START});
-	return getOrderBook()
+	return getOrderBook(symbol)
 		.then((response) => {
 			dispatch({type: FETCH_SUCCESS, payload: response.data});
 		})
