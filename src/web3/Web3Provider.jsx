@@ -141,6 +141,8 @@ class Web3Provider extends React.Component {
       onChangeAccount(next);
     }
 
+    console.log("store");
+
     // If available, dispatch redux action
     if (store && typeof store.dispatch === 'function') {
       const didLogin = !curr && next;

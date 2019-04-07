@@ -9,6 +9,7 @@ import { fetchTickers } from '../../reducers/Tickers';
 import { fetchOrderBook } from '../../reducers/Orderbook';
 import { fetchHistoryOrderList, fetchActiveOrderList } from '../../reducers/Orders';
 import { processApiError } from '../../reducers/helpers';
+import { fetchTrades } from '../../reducers/Trades';
 
 import SymbolInfo from '../../components/SymbolInfo';
 import SymbolList from '../../components/SymbolList';
@@ -48,7 +49,9 @@ class Dashboard extends React.Component {
  		const { web3 } = window;
 		this.props.fetchTickers().then((tickers) => {
 			const ticker = tickers[pair];
-			this.props.fetchOrderBook(ticker.id);
+			if(ticker){
+				this.props.fetchOrderBook(ticker.id);	
+			}
 		});
 		this.fetchOrders();
 		

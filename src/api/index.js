@@ -4,11 +4,9 @@ import { API_URL } from '../config';
 
 console.log('API_URL', API_URL);
 
-const api = axios.create({
+export const api = axios.create({
 	baseURL: API_URL + '/api'
-})
-
-api.defaults.headers.common['Authorization'] = 'Auth=0x2f618c7606f040340fb2f34f4c58ff2183119913';
+});
 
 
 export const getOrderBook = (market) => {
@@ -47,6 +45,10 @@ export const cancelAllOrders = () => {
 export const getTickers = (address) => {
 	return api.get("/markets/");
 };
+
+export const getTrades = (address) => {
+	return api.get("/trades/");
+}
 
 export const getNextNonce = () => {
 	return api.get("/orders/get_next_nonce/")

@@ -137,9 +137,9 @@ class OrderForm extends Component {
                     console.log('hashParams', hashParams);
                     const soliditySha3 = web3.utils.soliditySha3(...hashParams);
                     console.log('soliditySha3', soliditySha3);
-                    return web3.eth.sign(soliditySha3, accounts[0])  
+                    return {signature: web3.eth.sign(soliditySha3, accounts[0]), nonce}
                 });
-            }).then(signature => {
+            }).then(({signature, nonce}) => {
                 console.log('signature', signature);
                 //message.success(signature);
                 //return ;
@@ -149,7 +149,8 @@ class OrderForm extends Component {
                     type: type.toLowerCase(),
                     price: type.toLowerCase() === "market" ? undefined : price,
                     hash_signature: signature,
-                    side
+                    side,
+                    nonce
                 })
                     .then(response => {
                         this.setState({
