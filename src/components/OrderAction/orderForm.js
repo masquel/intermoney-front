@@ -161,8 +161,9 @@ class OrderForm extends Component {
     };
     handleSignOrder = (e) => {
         e.preventDefault();
-        const { side } = this.props;
-        const { amount, price } = this.state;
+        const { lastPrice, ticker, type, side } = this.props;
+        let { amount, price } = this.state;
+        const currentPrice = (price || lastPrice).toString();
         if(amount < 0 ){
             return;
         }
@@ -174,20 +175,24 @@ class OrderForm extends Component {
             alert('No web3!');
             this.setState({ loading: false });
         }else{
+            amount = window.web3.toWei(amount);
+            price = window.web3.toWei(price);
+            console.log(amount, price);
             const web3 = new Web3(window.web3.currentProvider);
             web3.eth.getAccounts().then(accounts => {
-                const direction = side === "sell" ? 0 : 1;
+                const direction = side === "sell" ? false : true;
 
                 const nonce = 1;
+                
 
                 // const hashParams = [
                 //     {t: 'uint256', v: 0}, // nonce
                 //     {t: 'uint256', v: 5000}, // amount
                 //     {t: 'uint256', v: 2}, // price
-                //     {t: 'bool', v: 1} // direction (sell - 0, buy - 1)
+                //     {t: 'bool', v: 1} // direction (sell - false, buy - true)
                 // ];
-                //const hashParams = getHashParams(0, 5000, 20000, 1);
-                const hashParams = getHashParams(nonce, window.web3.toWei(amount), window.web3.toWei(price), direction);
+                //const hashParams = getHashParams(0, 5000, 20000, true);
+                const hashParams = getHashParams(nonce, amount, price, direction);
 
                 console.log('hashParams', hashParams);
                 const soliditySha3 = web3.utils.soliditySha3(...hashParams);
@@ -195,8 +200,37 @@ class OrderForm extends Component {
                 return web3.eth.sign(soliditySha3, accounts[0])
             }).then(signature => {
                 console.log(signature);
-                message.success(signature);
-                this.setState({ loading: false });
+                //message.success(signature);
+                
+                createOrder({
+                    market: ticker.name,
+                    size: amount,
+                    type: type.toLowerCase(),
+                    price: type.toLowerCase() === "market" ? undefined : currentPrice,
+                    hash_signature: signature,
+                    side
+                })
+                    .then(response => {
+                        this.setState({
+                            loading: false,
+                            amount: 0.0
+                        });
+                        message.success("Order added successfully.");
+                    })
+                    .catch(error => {
+                        if (error.response && error.response.data) {
+                            console.log(error.response.data);
+                            message.error(error.response.data.error.message);
+                        } else {
+                            message.error(
+                                `Something wrong. Order didn't create. ${error}`
+                            );
+                        }
+                        console.error(error);
+                        this.setState({
+                            loading: false
+                        });
+                    });
             }).catch(error => {
                 console.error(error);
                 console.log(error.message);
@@ -271,6 +305,7 @@ class OrderForm extends Component {
                         {...formItemLayout}
                     >
                         <Input
+                            disabled={loading}
                             placeholder="price"
                             name="price"
                             value={price}
@@ -285,6 +320,7 @@ class OrderForm extends Component {
                     {...formItemLayout}
                 >
                     <Input
+                        disabled={loading}
                         placeholder="Amount"
                         name="amount"
                         value={amount}
@@ -313,6 +349,7 @@ class OrderForm extends Component {
                     {...formItemLayout}
                 >
                     <Input
+                        disabled={loading}
                         placeholder="Total"
                         name="total"
                         value={total || ""}

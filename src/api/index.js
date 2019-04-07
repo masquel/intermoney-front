@@ -11,53 +11,18 @@ const api = axios.create({
 api.defaults.headers.common['Authorization'] = 'Auth=0x2f618c7606f040340fb2f34f4c58ff2183119913';
 
 
-export const getOrderBook = () => {
-	return new Promise((resolve, reject) => {
-		resolve({
-			data: {
-				ask: [
-					[0.1, 100],
-					[0.2, 20],
-					[0.3, 30],
-					[0.5, 10],
-					[0.6, 50],
-					[0.7, 1000],
-					[0.8, 30],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0]
-				],
-				bid: [
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0.01, 3000],
-					[0.02, 0.1],
-					[0.03, 0.2],
-					[0.04, 3330],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0],
-					[0, 0]
-				]
-			}
-		})
+export const getOrderBook = (market) => {
+	return api.get("/orders/orderbook/", {
+		params: {
+			market
+		}
 	});
 };
 
-export const createOrder = () => {
-	return new Promise((resolve) => {
-		resolve();
-	});
+export const createOrder = ({type, side, ...order}) => {
+	console.log(`/orders/${side}_${type}/`, order);
+	return Promise.resolve();
+	//return api.post(`/orders/${side}_${type}/`, order);
 };
 
 export const getWallets = () => {
@@ -67,7 +32,7 @@ export const getWallets = () => {
 };
 
 export const getActiveOrders = (address) => {
-	return api.get("/orders/active");
+	return api.get("/orders/active/");
 };
 
 export const getHistoryOrders = (address) => {

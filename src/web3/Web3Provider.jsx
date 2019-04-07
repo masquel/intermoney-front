@@ -1,9 +1,10 @@
-const React = require('react');
-const PropTypes = require('prop-types');
+import React from 'react';
+import PropTypes from 'prop-types';
+import AccountUnavailable from './AccountUnavailable';
+import Web3Unavailable from './Web3Unavailable';
+
 const isEmpty = require('lodash/isEmpty');
 const range = require('lodash/range');
-const AccountUnavailable = require('./AccountUnavailable');
-const Web3Unavailable = require('./Web3Unavailable');
 
 const ONE_SECOND = 1000;
 const ONE_MINUTE = ONE_SECOND * 60;
@@ -14,8 +15,6 @@ const propTypes = {
 };
 const defaultProps = {
   passive: false,
-  web3UnavailableScreen: Web3Unavailable,
-  accountUnavailableScreen: AccountUnavailable
 };
 const childContextTypes = {
   web3: PropTypes.shape({
@@ -229,11 +228,11 @@ class Web3Provider extends React.Component {
     }
 
     if (!web3) {
-      return <Web3UnavailableComponent />;
+      return <Web3Unavailable />;
     }
 
     if (isEmpty(this.state.accounts)) {
-      return <AccountUnavailableComponent />;
+      return <AccountUnavailable />;
     }
 
     return this.props.children;
